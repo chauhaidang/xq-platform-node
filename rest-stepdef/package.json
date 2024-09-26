@@ -1,0 +1,13 @@
+{
+  "name": "rest-stepdef",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@cucumber/cucumber": "11.0.1",
+    "kit-common": "../kit-common"
+  },
+  "peerDependencies": {
+    "@cucumber/cucumber": "11.0.1"
+  }
+}
