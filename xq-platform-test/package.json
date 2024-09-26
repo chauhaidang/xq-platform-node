@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "@cucumber/pretty-formatter": "^1.0.1"
+    "@cucumber/pretty-formatter": "1.0.1"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "11.0.1"
+    "@cucumber/cucumber": "11.0.1",
+    "kit-common": "../kit-common"
   }
 }

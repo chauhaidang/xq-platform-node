@@ -1,0 +1,14 @@
+{
+  "name": "kit-common",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/node": "^22.7.2",
+    "typescript": "^5.6.2"
+  }
+}
