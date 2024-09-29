@@ -1,2 +1,2 @@
-const { loadSteps } = require('rest-stepdef')
-loadSteps(require('@cucumber/cucumber'))
+const { loadHttpSteps } = require('rest-stepdef')
+loadHttpSteps(require('@cucumber/cucumber'))

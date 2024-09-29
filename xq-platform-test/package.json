@@ -2,6 +2,9 @@
   "dependencies": {
     "@cucumber/pretty-formatter": "1.0.1",
     "@cucumber/cucumber": "11.0.1",
-    "rest-stepdef": "../rest-stepdef"
+    "rest-stepdef": "../kit-stepdef"
+  },
+  "scripts": {
+    "i": "cd ../kit-stepdef && yarn install --force && cd ../xq-platform-test && yarn install --force"
   }
 }

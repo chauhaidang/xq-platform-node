@@ -1,6 +1,6 @@
 {
-  "name": "rest-stepdef",
-  "version": "1.0.0",
+  "name": "kit-stepdef",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
