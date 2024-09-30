@@ -1,3 +1,17 @@
-const { generateRandomString } = require('kit-common')
+const request = {
+  method: '',
+  body: {},
+}
 
-console.log(generateRandomString(5))
+const input1 = {
+  method: 'POST'
+}
+
+const input2 = {
+  body: {
+    name: 'bonus2024'
+  }
+}
+
+// What will return?
+console.log({ ...input1, ...request, ...input2 });

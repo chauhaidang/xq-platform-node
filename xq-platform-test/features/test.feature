@@ -6,5 +6,5 @@ Feature: Greeting
       | name    | "david" |
       | id      | "dv001" |
     Then received response
-      | $status |     201 |
-      | id      | "dv001" |
+      | $statusCode |     201 |
+      | id          | "dv001" |

@@ -5,7 +5,7 @@ module.exports = {
    * @returns {object}
    */
   reduceTokenizedTableToMap(cucumberTable) {
-    cucumberTable.rawTable.reduce((result, current) => {
+    return cucumberTable.rawTable.reduce((result, current) => {
       if (current[0][0] === "$") {
         result[current[0].replace('$', '')] = JSON.parse(current[1])
       }
