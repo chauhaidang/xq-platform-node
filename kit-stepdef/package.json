@@ -5,9 +5,14 @@
   "license": "MIT",
   "devDependencies": {
     "@cucumber/cucumber": "11.0.1",
-    "kit-common": "../kit-common"
+    "chai": "4.2.0",
+    "kit-common": "../kit-common",
+    "supertest": "7.0.0"
   },
   "peerDependencies": {
     "@cucumber/cucumber": "11.0.1"
+  },
+  "scripts": {
+    "i": "cd ../kit-common && yarn i && cd ../kit-stepdef && yarn install --force"
   }
 }

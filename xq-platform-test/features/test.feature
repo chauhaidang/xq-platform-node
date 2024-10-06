@@ -1,10 +1,9 @@
 Feature: Greeting
 
   Scenario:
-    When send request "/account"
-      | $method | "POST"  |
-      | name    | "david" |
-      | id      | "dv001" |
+    When send GET request
+      | #path | "/user/123" |
     Then received response
-      | $statusCode |     201 |
-      | id          | "dv001" |
+      | #statusCode |       200 |
+      | id          |       123 |
+      | username    | "bret123" |
