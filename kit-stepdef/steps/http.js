@@ -16,7 +16,7 @@ module.exports = {
   loadHttpSteps: function ({ Given, When, Then, setWorldConstructor, world }) {
     const { World } = require('@cucumber/cucumber')
     class HttpWorld extends World {
-      request = {
+      static defaultRequestModel = {
         baseUrl: '',
         path: '',
         url: '',
@@ -27,11 +27,14 @@ module.exports = {
         method: ''
       }
 
-      response = {
+      static defaultResponseModel = {
         headers: {},
         body: null,
         statusCode: 0,
       }
+
+      request = { ...HttpWorld.defaultRequestModel }
+      response = { ...HttpWorld.defaultResponseModel }
 
       constructor(options) {
         super(options)
@@ -44,18 +47,53 @@ module.exports = {
       URL: "apiUrl"
     }
 
-    When('send GET request', async (table) => {
-      const requestParameters = cucumberHelper.reduceTokenizedTableToMap(table)
-      const requestBody = cucumberHelper.reduceTableToMap(table)
+    /**
+     * Map requestParameters, requestBody from http request model to the world instance
+     * @param {*} world
+     * @param {*} requestParameters from cucumberHelper.transformCucumberTableToHttpModel
+     * @param {*} requestBody from cucumberHelper.transformCucumberTableToHttpModel
+     */
+    function mapRequestToWorld(world, requestParameters, requestBody) {
+      world.request = HttpWorld.defaultRequestModel
       world.request = { ...world.request, ...requestParameters, body: { ...requestBody } }
       world.request.baseUrl = new URL(getConfig()[CONFIG_PROPS.URL]).toString()
       world.request.url = world.request.baseUrl + world.request.path
+    }
 
-      const response = await request(world.request.baseUrl).get(world.request.path)
+    /**
+     * Map response from supertest to the world instance
+     * @param {*} world
+     * @param {*} response supertest request's response
+     */
+    function mapResponseToWorld(world, response) {
+      world.response = HttpWorld.defaultResponseModel
       world.response.statusCode = response.statusCode
       world.response.body = response.body
       world.response.headers = response.headers
+    }
+
+    When('make GET request', async (table) => {
+      const { requestParameters, requestBody } = cucumberHelper.transformCucumberTableToHttpModel(table)
+      mapRequestToWorld(world, requestParameters, requestBody)
+
+      const req = request(world.request.baseUrl).get(world.request.path)
+      const res = await req.send()
+      mapResponseToWorld(world, res)
     })
+
+
+    When('make POST request', async (table) => {
+      const { requestParameters, requestBody } = cucumberHelper.transformCucumberTableToHttpModel(table)
+      mapRequestToWorld(world, requestParameters, requestBody)
+
+      const req = request(world.request.baseUrl)
+        .post(world.request.path)
+        .set('Accept', 'application/json')
+
+      const res = await req.send(requestBody)
+      mapResponseToWorld(world, res)
+    })
+
 
     Then('received response', (table) => {
       const expectedResponseParameters = cucumberHelper.reduceTokenizedTableToMap(table)

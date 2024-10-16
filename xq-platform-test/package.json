@@ -6,6 +6,7 @@
     "rest-stepdef": "../kit-stepdef"
   },
   "scripts": {
-    "i": "cd ../kit-stepdef && yarn i && cd ../xq-platform-test && yarn install --force"
+    "i": "cd ../kit-stepdef && yarn i && cd ../xq-platform-test && yarn install --force",
+    "t": "yarn cucumber-js"
   }
 }

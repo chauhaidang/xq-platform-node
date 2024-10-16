@@ -3,7 +3,7 @@ const { STEP_DEF_ENUM } = require("./const")
 module.exports = {
   /**
    * Reduce tokenized value in cucumber table (2D array) to an object with key-value entries
-   * @param {{rawTable: object}} cucumberTable
+   * @param {{rawTable: [[]]}} cucumberTable
    * @returns {object}
    */
   reduceTokenizedTableToMap(cucumberTable) {
@@ -17,7 +17,7 @@ module.exports = {
 
   /**
    * Reduce cucumber table (2D array) to an object with key-value entries
-   * @param {{rawTable: object}} cucumberTable
+   * @param {{rawTable: [[]]}} cucumberTable
    * @returns {object}
    */
   reduceTableToMap(cucumberTable) {
@@ -27,5 +27,17 @@ module.exports = {
       }
       return result
     }, {})
-  }
+  },
+
+  /**
+   * Transform cucumber table to an object that will be used for REST api call
+   * @param {{rawTable: [[]]}} cucumberTable
+   * @returns {{requestBody: object, requestParameters: object}: object}
+   */
+  transformCucumberTableToHttpModel(cucumberTable) {
+    return {
+      requestBody: this.reduceTableToMap(cucumberTable),
+      requestParameters: this.reduceTokenizedTableToMap(cucumberTable),
+    }
+  },
 }
