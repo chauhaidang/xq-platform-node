@@ -2,10 +2,9 @@
   "name": "omitrix-mobile",
   "version": "1.0.0",
   "scripts": {
-    "start": "react-native start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
-    "web": "expo start --web",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "bip": "expo prebuild --no-install --platform ios",
     "bi": "cd ios && pod install && sh ./build-sim.sh && cd ..",
     "bap": "expo prebuild --no-install --platform android",
@@ -23,7 +22,8 @@
     "react-native-web": "0.19.10"
   },
   "devDependencies": {
-    "@babel/core": "7.25.2"
+    "@babel/core": "7.25.2",
+    "prettier": "^3.3.3"
   },
   "private": true
 }
