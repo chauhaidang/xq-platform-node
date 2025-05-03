@@ -795,7 +795,7 @@ resolve@^1.10.0:
     supports-preserve-symlinks-flag "^1.0.0"
 
 rest-stepdef@../kit-stepdef:
-  version "1.0.1"
+  version "1.0.2"
 
 seed-random@~2.2.0:
   version "2.2.0"
