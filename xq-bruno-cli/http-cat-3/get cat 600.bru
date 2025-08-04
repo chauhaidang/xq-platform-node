@@ -1,0 +1,21 @@
+meta {
+  name: get cat 600
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://http.cat/status/500
+  body: none
+  auth: inherit
+}
+
+tests {
+  test('check status', () => {
+    expect(res.getStatus()).equal(200)
+  })
+}
+
+settings {
+  encodeUrl: true
+}
