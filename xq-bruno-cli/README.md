@@ -1,105 +1,60 @@
-# Bruno CLI Custom Runner `{ 0.0.1 }`
+## xq-bruno-cli
+A custom Node.js wrapper for running Bruno API test collections either sequentially or in parallel
+- `main.js`: Entry point that spawns Bruno CLI processes for each test collection
+- `http-cat-1/`, `http-cat-2/`, `http-cat-3/`, `http-cat-4/`: Bruno API test collection directories
+- Each collection contains `.bru` files (Bruno test definitions) and a `bruno.json` configuration
 
-A Node.js utility to run Bruno API collections either sequentially or in parallel.
+## Commands
 
-## Installation
-
+### Setup
 ```bash
-# Clone the repository
-git clone <repository-url>
-
-# Install dependencies
+# Install dependencies for the Bruno CLI wrapper
 cd xq-bruno-cli
 npm install
 ```
 
-## Usage
+### Running Bruno API Tests
 
-### Directory Structure
-```
-xq-bruno-cli/
-├── main.js
-├── http-cat-1/
-├── http-cat-2/
-├── http-cat-3/
-├── http-cat-4/
-└── package.json
-```
-
-### Running Collections
-
-#### Sequential Execution
+**Sequential execution (default):**
 ```bash
+cd xq-bruno-cli
 node main.js
 ```
 
-#### Parallel Execution
+**Parallel execution:**
 ```bash
+cd xq-bruno-cli
 RUN_MODE=parallel node main.js
 ```
 
-### Environment Variables
+## Architecture
 
-- `RUN_MODE`: Set to `"parallel"` for parallel execution. Defaults to sequential if not set.
+### Bruno CLI Custom Runner
 
-### Configuration
+The `xq-bruno-cli/main.js` implements a custom runner that:
 
-Collections are defined in `main.js`:
+1. **Collection Management**: Defines multiple Bruno test collections with their paths
+2. **Execution Modes**:
+    - **Sequential**: Runs collections one after another using `runSequential()`
+    - **Parallel**: Runs all collections simultaneously using `runParallel()`
+3. **Process Spawning**: Uses Node.js `child_process.spawn()` to execute the Bruno CLI (`bru run .`) for each collection
+4. **Result Tracking**: Monitors exit codes and execution time for each collection
+5. **Environment-based Control**: Switches between modes via `RUN_MODE` environment variable
 
-```javascript
-const collections = [
-  {
-    name: "http-cat-1",
-    path: path.join(__dirname, "http-cat-1"),
-  },
-  // Add more collections here
-];
-```
+### Bruno Test Collections
 
-### Output
+Each collection directory (`http-cat-*`) contains:
+- `bruno.json`: Collection metadata (name, version, type)
+- `.bru` files: Individual API test definitions with:
+    - Metadata (name, type, sequence)
+    - HTTP request configuration (method, URL, body, auth)
+    - Test assertions using a Mocha-like syntax
+    - Settings (URL encoding, etc.)
 
-The script provides detailed execution information:
-```
-Starting collection: http-cat-1
-Collection http-cat-1 executed successfully
-Starting collection: http-cat-2
-Collection http-cat-2 executed successfully
-...
-Total execution time: 3.45 seconds
-```
+## Development Notes
 
-### Error Handling
-
-- Failed collections are logged with error codes
-- Process errors are captured and reported
-- Detailed execution results are provided for both successful and failed runs
-
-## Requirements
-
-- Node.js >= 14
-- Bruno CLI installed globally or locally
-- Collection directories must contain valid Bruno API collections
-
-## License
-
-MIT License
-
-Copyright (c) 2024 XQ Platform
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+- The project uses **yarn** as the package manager (per README)
+- Node.js version requirement: >= 14
+- Bruno CLI is installed as a dependency (`@usebruno/cli`)
+- The wrapper provides detailed logging of collection execution status and timing
+- Each Bruno collection runs independently with its own test assertions
